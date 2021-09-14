@@ -28,6 +28,10 @@ if(text !== '' ) {
 
 
 function renderTodo(todo) {
+    localStorage.setItem('todoItemsRef', JSON.stringify(todoItems));
+    console.log(localStorage)
+    const ref = localStorage.getItem('todoItemsRef')
+    console.log(ref)
     const list = document.querySelector('.js-todo-list')
     const item = document.querySelector(`[data-key='${todo.id}']`)
     if (todo.deleted) {
@@ -95,3 +99,16 @@ function toggleDone(key) {
     renderTodo(todoItems[index])
 
 }
+
+document.addEventListener('DOMContentLoaded',()=> {
+    const ref = localStorage.getItem('todoItemsRef');
+    console.log("ddd")
+    if(ref) {
+        console.log("salam")
+        todoItems = JSON.parse(ref)
+        todoItems.forEach(t => {
+            renderTodo(t)
+        })
+    }
+})
+
