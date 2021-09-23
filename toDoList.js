@@ -17,6 +17,7 @@ const todoItem = {
     id : Date.now()
 }
  todoItems.push(todoItem)
+ writeItemInJson(todoItem)
  renderTodo(todoItem)
 
 }
@@ -36,7 +37,6 @@ if(text !== '' ) {
 
 
 function renderTodo(todo) {
-    console.log(todo)
     localStorage.setItem('todoItemsRef', JSON.stringify(todoItems));
     const ref = localStorage.getItem('todoItemsRef')
     const list = document.querySelector('.js-todo-list')
@@ -73,7 +73,6 @@ list.addEventListener('click',event => {
 
     if(event.target.classList.contains('todo-item')) {
        const itemkey = event.target.dataset.key
-       console.log(itemkey)
        toggleDone(itemkey)
     }
 
@@ -99,8 +98,9 @@ function deleteTodo(key) {
 }
 
 function toggleDone(key) {
-
     const index = todoItems.findIndex(item => item.id === Number(key))
+
+   
     todoItems[index].checked = !todoItems[index].checked
 
     renderTodo(todoItems[index])
@@ -122,3 +122,13 @@ function loadJSON(callback) {
     };
     xobj.send(null);  
  }
+
+
+function writeItemInJson(item) {
+    
+    var xobj = new XMLHttpRequest();
+    xobj.overrideMimeType("application/json");
+    xobj.open('POST', 'my_data.json', true); // Replace 'my_data' with the path to your file
+    xobj.send(JSON.stringify(item))
+}
+
